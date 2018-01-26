@@ -1,0 +1,135 @@
+#include <iostream>
+#include <cstdio>
+using namespace std;
+
+struct node{
+    int data;
+    node* next;
+};
+node* head;
+
+//Insert at Behind of Linked List
+void insertBL(int x){
+    node* temp = new node;
+    temp->data = x;
+    temp->next = head;
+    head = temp;
+}
+
+//Insert at the End of the Linked List
+void insertEL(int x){
+    node* temp = new node;
+    node* i = head;
+    temp->data = x;
+    temp->next = NULL;
+    if(head == NULL){
+        head = temp;
+        return;
+    }
+    while(i->next != NULL){
+        i = i->next;
+    }
+    i->next = temp;
+}
+
+//Insert After a node in the Linked List
+void insertAL(int x, int y){
+    node* temp = new node;
+    node* i = head;
+    temp->data = x;
+
+    if (head == NULL){
+        head = temp;
+        temp->next = NULL;
+    }
+
+    while(i != NULL){
+        if (i->next == NULL){
+            i->next = temp;
+            return;
+        }
+        else if (i->data == y){
+            temp->next = i->next;
+            i->next = temp;
+            return;
+        }
+        i = i->next;
+    }
+}
+
+//Delete a node in the Linked List
+void delNode(int x)
+{
+    node* i = head;
+    node* j;
+    if (head == NULL){
+        cout << "The linked list is empty\n";
+        return;
+    }
+    if (head->data == x){head = i->next;
+        delete i;
+        return;
+    }
+    while(i->next != NULL){
+        j = i->next;
+        if (j->data == x){
+            i->next = j->next;
+            delete j;
+            return;
+        }
+        i = i->next;
+    }
+    cout << "The element is not in the linked list\n";
+}
+
+//Print all the elements of the Linked List
+void printList(){
+    cout << endl;
+    node* temp = head;
+    while(temp != NULL){
+        cout << temp->data << endl;
+        temp = temp->next;
+    }
+    cout << endl;
+}
+
+int main()
+{
+    head = NULL;
+    printf("How many numbers to enter? ");
+    int n,data;
+    scanf("%d",&n);
+    for(int i = 0; i < n; i++){
+        printf("Enter the number ");
+        scanf("%d",&data);
+        insertEL(data);
+    }
+
+    int test = 0, afterData;
+
+    //Menu driven loop for Linked Lists
+    while(test != 5){
+    printf("\
+Press 1 to add at front of LL\n\
+Press 2 to add at end of LL\n\
+Press 3 to add after a node in LL\n\
+Press 4 to delete a node\n\
+Press 5 to exit\n");
+        cin >> test;
+        switch (test) {
+            case 1: cin >> data; insertBL(data); printList();break;
+            case 2: cin >> data; insertEL(data); printList();break;
+            case 3: cout << "At what element you want to add node after ";
+                    cin >> afterData;
+                    cout << "Enter the element you want to add ";
+                    cin >> data;
+                    insertAL(data,afterData); printList();break;
+            case 4: cin >> data; delNode(data); printList();break;
+            case 5: break;
+            default: cout << "Enter a valid input!\n"; break;
+        }
+    }
+
+    printList();
+    return 0;
+}
