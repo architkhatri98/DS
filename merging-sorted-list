@@ -1,0 +1,44 @@
+Node* MergeLists(Node *headA, Node* headB){
+    Node* headMerged;
+    Node* i;
+    Node* iA = headA;
+    Node* iB = headB;
+    if (headA == NULL){headMerged = headB; return headB;}
+    if (headB == NULL){headMerged = headA; return headA;}
+    
+    if (headA->data <= headB->data){
+        headMerged = headA;
+        iA =iA->next;
+    }
+    else{
+        headMerged  = headB;
+        iB = iB->next;
+    }
+    i = headMerged;
+    
+    while(iA != NULL && iB != NULL){
+        if (iA->data <= iB->data){
+            i->next = iA;
+            i = i->next;
+            iA = iA->next;
+        }
+        else {
+            i->next = iB;
+            i = i->next;
+            iB = iB->next;
+        }
+    }
+    if (iA == NULL){
+        while(iB != NULL){
+            i->next = iB;
+            iB = iB->next;
+        }
+    }
+    if (iB == NULL){
+        while(iA != NULL){
+            i->next = iA;
+            iA = iA->next;
+        }
+    }
+    return headMerged;
+}
